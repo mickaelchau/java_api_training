@@ -2,16 +2,15 @@ package fr.lernejo;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpExchange;
 
-public class Server {
-    public static HttpServer initHttpServer()
-     {
+public class ServerTools {
+    public HttpServer initHttpServer()
+    {
         HttpServer server;
         try {
             InetSocketAddress port = new InetSocketAddress(9876);
@@ -22,14 +21,8 @@ public class Server {
         }
         return null;
     }
-    public static void main(String args[]) {
-        HttpServer server = initHttpServer();
-        if (server == null) {
-            return;
-        }
-        ExecutorService executor = Executors.newFixedThreadPool(1);
-        server.setExecutor(executor);
 
+    public void createPingContext(HttpServer server) {
         server.createContext("/ping", new HttpHandler() {
             public void handle(HttpExchange exchange) throws IOException {
                 String body = "Hello";
@@ -41,6 +34,5 @@ public class Server {
                 }
             }
         });
-        server.start();
     }
 }
