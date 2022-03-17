@@ -13,7 +13,10 @@ public class Launcher {
         }
         ExecutorService executor = Executors.newFixedThreadPool(1);
         server.setExecutor(executor);
-        serverTools.createPingContext(server);
+
+        ServerHandler serverHandler = new ServerHandler();
+        serverHandler.createPingContext(server);
+        serverHandler.createStartContext(server);
 
         server.start();
     }
