@@ -13,7 +13,6 @@ public class PingHandler {
     public void createPingContext(HttpServer server) {
         server.createContext("/ping", new HttpHandler() {
             public void handle(HttpExchange exchange) throws IOException {
-                System.out.println("hey");
                 serverTools.sendResponse("OK", exchange, 200);
             }
         });
