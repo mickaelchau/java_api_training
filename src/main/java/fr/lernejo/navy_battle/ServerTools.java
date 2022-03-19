@@ -30,6 +30,16 @@ public class ServerTools {
         }
         return null;
     }
+
+    private void createContexts(HttpServer server) {
+        PingHandler pingHandler = new PingHandler();
+        StartHandler startHandler = new StartHandler();
+        FireHandler fireHandler = new FireHandler();
+
+        pingHandler.createPingContext(server);
+        startHandler.createStartContext(server);
+        fireHandler.createFireContext(server);
+    }
     
     public void runHttpServer() {
         HttpServer server = initHttpServer();
@@ -39,11 +49,7 @@ public class ServerTools {
         ExecutorService executor = Executors.newFixedThreadPool(1);
         server.setExecutor(executor);
 
-        ServerHandler serverHandler = new ServerHandler();
-        serverHandler.createPingContext(server);
-        serverHandler.createStartContext(server);
-
-
+        createContexts(server);
         server.start();
     }
 
@@ -65,21 +71,5 @@ public class ServerTools {
             responseStrBuilder.append(inputStr);
         JSONObject jsonObject = new JSONObject(responseStrBuilder.toString());
         return jsonObject;
-    }
-
-    public void handlePostRequest(HttpExchange exchange) throws IOException{
-        try (InputStream os = exchange.getRequestBody()) { 
-            JSONObject jsonObject = getRequestJson(os);
-            try (InputStream inputStream = getClass().getResourceAsStream("/SchemaJSON.json")) {
-                JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
-                Schema schema = SchemaLoader.load(rawSchema);
-                try {
-                    schema.validate(jsonObject);
-                    sendResponse("{\n\"id\": \"2aca7611-0ae4-49f3-bf63-75bef4769028\",\n\"url\": \"http://localhost:9876\",\n\"message\": \"May the best code win\"\n}", exchange, 202);
-                } catch (ValidationException exception) {
-                    sendResponse("Request body malformed", exchange, 400);
-                }
-            }
-        }    
     }
 }
