@@ -1,4 +1,4 @@
-package fr.lernejo;
+package fr.lernejo.navy_battle;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +10,8 @@ import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 import com.sun.net.httpserver.HttpServer;
@@ -27,6 +29,22 @@ public class ServerTools {
             System.err.println("Init HttpServer goes wrong: " + exception);
         }
         return null;
+    }
+    
+    public void runHttpServer() {
+        HttpServer server = initHttpServer();
+        if (server == null) {
+            return;
+        }
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        server.setExecutor(executor);
+
+        ServerHandler serverHandler = new ServerHandler();
+        serverHandler.createPingContext(server);
+        serverHandler.createStartContext(server);
+
+
+        server.start();
     }
 
     public void sendResponse(String body, HttpExchange exchange, int responseCode) throws IOException {
@@ -52,7 +70,7 @@ public class ServerTools {
     public void handlePostRequest(HttpExchange exchange) throws IOException{
         try (InputStream os = exchange.getRequestBody()) { 
             JSONObject jsonObject = getRequestJson(os);
-            try (InputStream inputStream = getClass().getResourceAsStream("SchemaJSON.json")) {
+            try (InputStream inputStream = getClass().getResourceAsStream("/SchemaJSON.json")) {
                 JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
                 Schema schema = SchemaLoader.load(rawSchema);
                 try {
@@ -60,7 +78,6 @@ public class ServerTools {
                     sendResponse("{\n\"id\": \"2aca7611-0ae4-49f3-bf63-75bef4769028\",\n\"url\": \"http://localhost:9876\",\n\"message\": \"May the best code win\"\n}", exchange, 202);
                 } catch (ValidationException exception) {
                     sendResponse("Request body malformed", exchange, 400);
-                    return;
                 }
             }
         }    
