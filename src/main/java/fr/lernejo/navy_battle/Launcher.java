@@ -10,16 +10,18 @@ import java.net.http.HttpResponse.BodyHandlers;
 public class Launcher {
     
     public static void main(String[] args) {
-        if (args.length == 1) {
-            String adversaryUrl = args[0];
+        if (args.length != 2 && args.length != 1) {
+            System.err.println("Program must be start with 1 or 2 arguments.");
+            return;
+        }
+        ServerTools serverTools = new ServerTools();
+        serverTools.runHttpServer(Integer.parseInt(args[0]));
+        if (args.length == 2) {
+            String adversaryUrl = args[1];
             Client client = new Client();
             String endpoint = adversaryUrl + "/api/game/start";
-            String message = "{\"id\":\"1\", \"url\":\"http://localhost:" + 8795 + "\", \"message\":\"hello\"}";
-            client.sendPostRequest(endpoint, message);
-        }
-        else {
-            ServerTools serverTools = new ServerTools();
-            serverTools.runHttpServer();
+            String message = "{\"id\":\"1\", \"url\":\"http://localhost:" + args[0] + "\", \"message\":\"hello\"}";
+            client.sendStartRequest(endpoint, message);
         }
     }
 }

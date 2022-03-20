@@ -14,7 +14,7 @@ public class Client {
         client = HttpClient.newHttpClient();
     }
 
-    public void sendPostRequest(String endpoint, String message) {
+    public void sendStartRequest(String endpoint, String message) {
         HttpRequest postRequest = HttpRequest.newBuilder()
             .uri(URI.create(endpoint))
             .setHeader("Accept", "application/json")

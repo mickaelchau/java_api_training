@@ -26,7 +26,7 @@ public class StartHandler {
                     return;
                 }
                 try {
-                    handleStartPostRequest(exchange);
+                    handleStartRequest(exchange);
                 } catch (IOException exception) {
                     System.err.println("Error while handling POST request: " + exception);
                 }
@@ -34,7 +34,7 @@ public class StartHandler {
         });
     }
 
-    public void handleStartPostRequest(HttpExchange exchange) throws IOException{
+    public void handleStartRequest(HttpExchange exchange) throws IOException{
         try (InputStream os = exchange.getRequestBody()) {
             JSONObject jsonObject = serverTools.getRequestJson(os);
             try (InputStream inputStream = getClass().getResourceAsStream("/SchemaJSON.json")) {

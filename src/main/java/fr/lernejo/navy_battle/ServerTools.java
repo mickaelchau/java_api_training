@@ -18,11 +18,11 @@ import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpExchange;
 
 public class ServerTools {
-    public HttpServer initHttpServer()
+    public HttpServer initHttpServer(int portNumber)
     {
         HttpServer server;
         try {
-            InetSocketAddress port = new InetSocketAddress(9876);
+            InetSocketAddress port = new InetSocketAddress(portNumber);
             server = HttpServer.create(port, 1);
             return server;
         } catch (IOException exception){
@@ -41,8 +41,8 @@ public class ServerTools {
         fireHandler.createFireContext(server);
     }
     
-    public void runHttpServer() {
-        HttpServer server = initHttpServer();
+    public void runHttpServer(int portNumber) {
+        HttpServer server = initHttpServer(portNumber);
         if (server == null) {
             return;
         }
