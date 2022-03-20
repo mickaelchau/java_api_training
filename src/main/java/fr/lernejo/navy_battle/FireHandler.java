@@ -16,9 +16,9 @@ public class FireHandler {
     public void handleFireGetRequest(HttpExchange exchange) throws  IOException {
         URI requestURI = exchange.getRequestURI();
         String cell = requestURI.toString().split("=")[1];
-        System.out.println(cell);
-        serverTools.sendResponse("{\"consequence\": \"sunk\", \"shipLeft\": true}", exchange, 200);
-
+        String attackResult = serverTools.map.shootCell(cell).stateToString();
+        boolean stillLeft = serverTools.map.hasShipsLeft();
+        serverTools.sendResponse("{\"consequence\": \"" + attackResult + "\", \"shipLeft\": " + stillLeft + "}", exchange, 200);
     }
 
     public void createFireContext(HttpServer server) {

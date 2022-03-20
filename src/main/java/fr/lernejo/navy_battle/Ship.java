@@ -6,12 +6,6 @@ public class Ship {
 
     ArrayList<Cell> positions;
 
-    public enum State {
-        HIT,
-        SUNK,
-        MISS
-    }
-
     private void appendPositions(int startX, int startY) {
         Cell position = new Cell(startX, startY);
         positions.add(position);

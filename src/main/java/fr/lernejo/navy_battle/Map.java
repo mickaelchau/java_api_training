@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 public class Map {
     ArrayList<Ship> ships;
-    int aliveShips;
+    int leftShips;
 
     public Map() {
         ships = new ArrayList<Ship>(5);
@@ -16,11 +16,11 @@ public class Map {
         ships.add(new Ship(3, 9, 0));
         ships.add(new Ship(3, 0, 7));
         ships.add(new Ship(2, 6, 6));
-        aliveShips = 5;
+        leftShips = 5;
     }
 
-    public boolean hasShipsAlive() {
-        return aliveShips != 0;
+    public boolean hasShipsLeft() {
+        return leftShips != 0;
     }
 
     private boolean isValidStringCell(String cell) {
@@ -43,29 +43,29 @@ public class Map {
     }
 
     private boolean hasShipDied() {
-        int beforeUpdateAliveShips = aliveShips;
+        int beforeUpdateAliveShips = leftShips;
         ships.forEach(ship -> {
             if (!ship.isAlive()) {
                 ships.remove(ship);
-                aliveShips--;
+                leftShips--;
             }
         });
-        return (beforeUpdateAliveShips != aliveShips);
+        return (beforeUpdateAliveShips != leftShips);
     }
 
     // 2 ships cannot be hit the same time
-    public Ship.State shootCell(String cell) {
+    public State shootCell(String cell) {
         if (!isValidStringCell(cell))
-            return Ship.State.MISS;
+            return State.MISS;
         int[] position = getCellPosition(cell);
         Cell shotCell = new Cell(position[0], position[1]);
-        boolean hasShot = ships.stream().anyMatch(ship -> ship.isShot(shotCell) != Ship.State.MISS);
+        boolean hasShot = ships.stream().anyMatch(ship -> ship.isShot(shotCell) != State.MISS);
         if (hasShot) {
             if (hasShipDied()) {
-                return Ship.State.SUNK;
+                return State.SUNK;
             }
-            return Ship.State.HIT;
+            return State.HIT;
         }
-        return Ship.State.MISS;
+        return State.MISS;
     }
 }
