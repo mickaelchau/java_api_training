@@ -16,7 +16,8 @@ public class Client {
         client = HttpClient.newHttpClient();
     }
 
-    public void sendStartRequest(String endpoint, String message) {
+    public void sendStartRequest(String adversaryUrl, String message) {
+        String endpoint = adversaryUrl + "/api/game/start";
         HttpRequest postRequest = HttpRequest.newBuilder()
             .uri(URI.create(endpoint))
             .setHeader("Accept", "application/json")
@@ -33,7 +34,7 @@ public class Client {
     }
 
     public void sendGetFireRequest(String adversaryUrl) {
-        String endpoint =adversaryUrl + "/api/game/fire" + "?cell=" + target.nextLetter + target.nextNumber;
+        String endpoint = adversaryUrl + "/api/game/fire" + "?cell=" + target.nextLetter + target.nextNumber;
         System.out.println(endpoint);
         HttpRequest getRequest = HttpRequest.newBuilder()
             .uri(URI.create(endpoint))

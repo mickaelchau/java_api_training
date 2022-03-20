@@ -15,7 +15,7 @@ public class Launcher {
             Client client = new Client();
             String endpoint = adversaryUrl + "/api/game/start";
             String message = "{\"id\":\"" + args[0] + "\", \"url\":\"http://localhost:" + args[0] + "\", \"message\":\"hello\"}";
-            client.sendStartRequest(endpoint, message);
+            client.sendStartRequest(adversaryUrl, message);
             client.sendGetFireRequest(adversaryUrl);
         }
     }
