@@ -15,8 +15,9 @@ import java.io.InputStream;
 public class StartHandler {
 
     private final ServerTools serverTools;
-    public StartHandler() {
-        serverTools = new ServerTools();
+
+    public StartHandler(ServerTools serverTools) {
+        this.serverTools = serverTools;
     }
     public void createStartContext(HttpServer server) {
         server.createContext("/api/game/start", new HttpHandler() {
@@ -42,7 +43,7 @@ public class StartHandler {
                 Schema schema = SchemaLoader.load(rawSchema);
                 try {
                     schema.validate(jsonObject);
-                    serverTools.sendResponse("{\n\"id\": \"2aca7611-0ae4-49f3-bf63-75bef4769028\",\n\"url\": \"http://localhost:9876\",\n\"message\": \"May the best code win\"\n}", exchange, 202);
+                    serverTools.sendResponse("{\n\"id\": \"" + serverTools.portNumber + "\",\n\"url\": \"http://localhost:9876\",\n\"message\": \"May the best code win\"\n}", exchange, 202);
                 } catch (ValidationException exception) {
                     serverTools.sendResponse("Request body malformed", exchange, 400);
                 }

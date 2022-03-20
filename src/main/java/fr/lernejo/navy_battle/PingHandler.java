@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class PingHandler {
     ServerTools serverTools;
-    public PingHandler() {
-        serverTools = new ServerTools();
+    public PingHandler(ServerTools serverTools) {
+        this.serverTools = new ServerTools();
     }
 
     public void createPingContext(HttpServer server) {

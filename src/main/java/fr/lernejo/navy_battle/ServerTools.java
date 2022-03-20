@@ -18,7 +18,9 @@ import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpExchange;
 
 public class ServerTools {
-    public HttpServer initHttpServer(int portNumber)
+    int portNumber;
+
+    public HttpServer initHttpServer()
     {
         HttpServer server;
         try {
@@ -32,9 +34,9 @@ public class ServerTools {
     }
 
     private void createContexts(HttpServer server) {
-        PingHandler pingHandler = new PingHandler();
-        StartHandler startHandler = new StartHandler();
-        FireHandler fireHandler = new FireHandler();
+        PingHandler pingHandler = new PingHandler(this);
+        StartHandler startHandler = new StartHandler(this);
+        FireHandler fireHandler = new FireHandler(this);
 
         pingHandler.createPingContext(server);
         startHandler.createStartContext(server);
@@ -42,7 +44,8 @@ public class ServerTools {
     }
     
     public void runHttpServer(int portNumber) {
-        HttpServer server = initHttpServer(portNumber);
+        this.portNumber = portNumber;
+        HttpServer server = initHttpServer();
         if (server == null) {
             return;
         }
