@@ -17,8 +17,10 @@ import com.sun.net.httpserver.HttpExchange;
 
 public class Server {
     int portNumber;
+    Map map;
 
     public Server(int portNumber) {
+        map = new Map();
         this.portNumber = portNumber;
     }
 

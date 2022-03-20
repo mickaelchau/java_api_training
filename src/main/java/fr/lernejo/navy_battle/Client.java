@@ -9,8 +9,10 @@ import java.net.http.HttpClient;
 
 public class Client {
     HttpClient client;
+    Target target;
 
     public Client() {
+        target = new Target();
         client = HttpClient.newHttpClient();
     }
 
@@ -30,4 +32,20 @@ public class Client {
         }
     }
 
+    public void sendGetFireRequest(String adversaryUrl) {
+        String endpoint =adversaryUrl + "/api/game/fire" + "?cell=" + target.nextLetter + target.nextNumber;
+        System.out.println(endpoint);
+        HttpRequest getRequest = HttpRequest.newBuilder()
+            .uri(URI.create(endpoint))
+            .GET()
+            .build();
+        try {
+            target.nextChoice();
+            HttpResponse<String> response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.body());
+        }
+        catch(InterruptedException | IOException exception) {
+            System.err.println("Error while receiving response: " + exception);
+        }
+    }
 }
