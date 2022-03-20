@@ -17,6 +17,7 @@ public class Ship {
         positions.add(position);
     }
     public Ship(int nbCells, int startX, int startY) {
+        positions = new ArrayList<Cell>(nbCells);
         if (startY > 7)
             startY = 7;
         if (startX > 8)
