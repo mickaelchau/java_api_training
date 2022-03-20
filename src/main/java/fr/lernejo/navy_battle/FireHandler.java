@@ -8,10 +8,10 @@ import java.io.IOException;
 import java.net.URI;
 
 public class FireHandler {
-    private final ServerTools serverTools;
+    private final Server serverTools;
 
-    public FireHandler(ServerTools serverTools) {
-        this.serverTools = new ServerTools();
+    public FireHandler(Server serverTools) {
+        this.serverTools = serverTools;
     }
     public void handleFireGetRequest(HttpExchange exchange) throws  IOException {
         URI test = exchange.getRequestURI();

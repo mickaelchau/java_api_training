@@ -14,9 +14,9 @@ import java.io.InputStream;
 
 public class StartHandler {
 
-    private final ServerTools serverTools;
+    private final Server serverTools;
 
-    public StartHandler(ServerTools serverTools) {
+    public StartHandler(Server serverTools) {
         this.serverTools = serverTools;
     }
     public void createStartContext(HttpServer server) {

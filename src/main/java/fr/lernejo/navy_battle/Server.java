@@ -5,11 +5,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import org.everit.json.schema.Schema;
-import org.everit.json.schema.ValidationException;
-import org.everit.json.schema.loader.SchemaLoader;
+
 import org.json.JSONObject;
-import org.json.JSONTokener;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,8 +15,12 @@ import java.util.concurrent.Executors;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpExchange;
 
-public class ServerTools {
+public class Server {
     int portNumber;
+
+    public Server(int portNumber) {
+        this.portNumber = portNumber;
+    }
 
     public HttpServer initHttpServer()
     {
@@ -43,8 +45,7 @@ public class ServerTools {
         fireHandler.createFireContext(server);
     }
     
-    public void runHttpServer(int portNumber) {
-        this.portNumber = portNumber;
+    public void runHttpServer() {
         HttpServer server = initHttpServer();
         if (server == null) {
             return;

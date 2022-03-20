@@ -5,9 +5,9 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 
 public class PingHandler {
-    ServerTools serverTools;
-    public PingHandler(ServerTools serverTools) {
-        this.serverTools = new ServerTools();
+    private final Server serverTools;
+    public PingHandler(Server serverTools) {
+        this.serverTools = serverTools;
     }
 
     public void createPingContext(HttpServer server) {

@@ -1,10 +1,4 @@
 package fr.lernejo.navy_battle;
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse.BodyHandlers;
 
 
 public class Launcher {
@@ -14,14 +8,15 @@ public class Launcher {
             System.err.println("Program must be start with 1 or 2 arguments.");
             return;
         }
-        ServerTools serverTools = new ServerTools();
-        serverTools.runHttpServer(Integer.parseInt(args[0]));
+        Server serverTools = new Server(Integer.parseInt(args[0]));
+        serverTools.runHttpServer();
         if (args.length == 2) {
             String adversaryUrl = args[1];
             Client client = new Client();
             String endpoint = adversaryUrl + "/api/game/start";
             String message = "{\"id\":\"" + args[0] + "\", \"url\":\"http://localhost:" + args[0] + "\", \"message\":\"hello\"}";
             client.sendStartRequest(endpoint, message);
+            String endpointPost = adversaryUrl + "/api/game/fire?cell=C6";
         }
     }
 }
