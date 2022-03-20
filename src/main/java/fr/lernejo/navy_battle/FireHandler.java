@@ -14,8 +14,8 @@ public class FireHandler {
         this.serverTools = serverTools;
     }
     public void handleFireGetRequest(HttpExchange exchange) throws  IOException {
-        URI test = exchange.getRequestURI();
-        String cell = test.toString().split("=")[1];
+        URI requestURI = exchange.getRequestURI();
+        String cell = requestURI.toString().split("=")[1];
         System.out.println(cell);
         serverTools.sendResponse("{\"consequence\": \"sunk\", \"shipLeft\": true}", exchange, 200);
 
