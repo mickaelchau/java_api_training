@@ -18,13 +18,13 @@ public class Client {
     }
 
     public void sendStartRequest(String adversaryUrl, String port) {
+        this.adversaryUrl = adversaryUrl;
         String endpoint = adversaryUrl + "/api/game/start";
         String message = "{\"id\":\"" + port + "\", \"url\":\"http://localhost:" + port + "\", \"message\":\"hello\"}";
         HttpRequest postRequest = HttpRequest.newBuilder().uri(URI.create(endpoint))
             .setHeader("Accept", "application/json")
             .setHeader("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(message))
-            .build();
+            .POST(HttpRequest.BodyPublishers.ofString(message)).build();
         try {
             HttpResponse<String> response = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.body());
@@ -36,12 +36,13 @@ public class Client {
 
     public void sendGetFireRequest() {
         String endpoint =  adversaryUrl + "/api/game/fire" + "?cell=" + target.nextLetter + target.nextNumber;
+        System.out.println(endpoint);
         HttpRequest getRequest = HttpRequest.newBuilder().uri(URI.create(endpoint))
             .GET()
             .build();
         try {
-            target.nextChoice();
             HttpResponse<String> response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
+            target.nextChoice();
             System.out.println(response.body());
         }
         catch(InterruptedException | IOException exception) {
