@@ -8,8 +8,8 @@ public class Launcher {
             System.err.println("Program must be start with 1 or 2 arguments.");
             return;
         }
-        Server serverTools = new Server(Integer.parseInt(args[0]));
-        serverTools.runHttpServer();
+        Server server = new Server(Integer.parseInt(args[0]));
+        server.runHttpServer();
         if (args.length == 2) {
             String adversaryUrl = args[1];
             String port = args[0];
