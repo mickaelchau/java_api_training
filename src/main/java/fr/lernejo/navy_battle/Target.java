@@ -9,17 +9,18 @@ public class Target {
         this.nextNumber = '0';
     }
 
+    public char addOneToChar(char character) {
+        int nextIntCharacter = (int) character + 1;
+        return (char) nextIntCharacter;
+    }
+
     public void nextChoice() {
         if (nextNumber == '9') {
             nextNumber = '0';
-            int intLetter = nextLetter;
-            int nextIntLetter = intLetter + 1;
-            nextLetter = (char) nextIntLetter;
+            nextLetter = addOneToChar(nextLetter);
         }
         else {
-            int intNumber = nextNumber;
-            int nextIntNumber = intNumber + 1;
-            nextNumber = (char) nextIntNumber;
+            nextNumber = addOneToChar(nextNumber);
         }
     }
 }
