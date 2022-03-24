@@ -2,6 +2,7 @@ package fr.lernejo.navy_battle;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -20,17 +21,16 @@ public class StartHandler {
                 server.sendResponse("Not a HTTP POST Method", exchange, 404);
                 return;
             }
-            try {
-                handleStartRequest(exchange);
-            } catch (IOException exception) {
-                System.err.println("Error while handling POST request: " + exception);
-            }
+            handleStartRequest(exchange);
         });
     }
 
-    public void handleStartRequest(HttpExchange exchange) throws IOException{
-        if (jsonSchemaParser.isBodyValid(exchange)) {
+    public void handleStartRequest(HttpExchange exchange) {
+        JSONObject jsonObjectRequest = jsonSchemaParser.getRequestJson(exchange);
+        if (jsonSchemaParser.isBodyValid(jsonObjectRequest)) {
             server.sendResponse("{\"id\": \"" + server.portNumber + "\",\"url\": \"http://localhost:9876\",\"message\": \"May the best code win\"}", exchange, 202);
+            String adversaryUrl = jsonObjectRequest.getString("url");
+            server.client.sendGetFireRequest(adversaryUrl);
         } else {
             server.sendResponse("Request body malformed", exchange, 400);
         }
