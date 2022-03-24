@@ -14,16 +14,16 @@ import java.io.InputStream;
 
 public class StartHandler {
 
-    private final Server serverTools;
+    private final Server server;
 
-    public StartHandler(Server serverTools) {
-        this.serverTools = serverTools;
+    public StartHandler(Server server) {
+        this.server = server;
     }
-    public void createStartContext(HttpServer server) {
-        server.createContext("/api/game/start", new HttpHandler() {
+    public void createStartContext(HttpServer httpServer) {
+        httpServer.createContext("/api/game/start", new HttpHandler() {
             public void handle(HttpExchange exchange) throws IOException {
                 if (!"POST".equals(exchange.getRequestMethod())) {
-                    serverTools.sendResponse("Not a HTTP POST Method", exchange, 404);
+                    server.sendResponse("Not a HTTP POST Method", exchange, 404);
                     return;
                 }
                 try {
@@ -37,15 +37,15 @@ public class StartHandler {
 
     public void handleStartRequest(HttpExchange exchange) throws IOException{
         try (InputStream os = exchange.getRequestBody()) {
-            JSONObject jsonObject = serverTools.getRequestJson(os);
+            JSONObject jsonObject = server.getRequestJson(os);
             try (InputStream inputStream = getClass().getResourceAsStream("/SchemaJSON.json")) {
                 JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
                 Schema schema = SchemaLoader.load(rawSchema);
                 try {
                     schema.validate(jsonObject);
-                    serverTools.sendResponse("{\n\"id\": \"" + serverTools.portNumber + "\",\n\"url\": \"http://localhost:9876\",\n\"message\": \"May the best code win\"\n}", exchange, 202);
+                    server.sendResponse("{\n\"id\": \"" + server.portNumber + "\",\n\"url\": \"http://localhost:9876\",\n\"message\": \"May the best code win\"\n}", exchange, 202);
                 } catch (ValidationException exception) {
-                    serverTools.sendResponse("Request body malformed", exchange, 400);
+                    server.sendResponse("Request body malformed", exchange, 400);
                 }
             }
         }

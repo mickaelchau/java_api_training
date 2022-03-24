@@ -8,24 +8,24 @@ import java.io.IOException;
 import java.net.URI;
 
 public class FireHandler {
-    private final Server serverTools;
+    private final Server server;
 
-    public FireHandler(Server serverTools) {
-        this.serverTools = serverTools;
+    public FireHandler(Server server) {
+        this.server = server;
     }
     public void handleFireGetRequest(HttpExchange exchange) throws  IOException {
         URI requestURI = exchange.getRequestURI();
         String cell = requestURI.toString().split("=")[1];
-        String attackResult = serverTools.map.shootCell(cell).stateToString();
-        boolean stillLeft = serverTools.map.hasShipsLeft();
-        serverTools.sendResponse("{\"consequence\": \"" + attackResult + "\", \"shipLeft\": " + stillLeft + "}", exchange, 200);
+        String attackResult = server.map.shootCell(cell).stateToString();
+        boolean stillLeft = server.map.hasShipsLeft();
+        server.sendResponse("{\"consequence\": \"" + attackResult + "\", \"shipLeft\": " + stillLeft + "}", exchange, 200);
     }
 
-    public void createFireContext(HttpServer server) {
-        server.createContext("/api/game/fire", new HttpHandler() {
+    public void createFireContext(HttpServer httpServer) {
+        httpServer.createContext("/api/game/fire", new HttpHandler() {
             public void handle(HttpExchange exchange) throws IOException {
                 if (!"GET".equals(exchange.getRequestMethod())) {
-                    serverTools.sendResponse("Not a HTTP POST Method", exchange, 404);
+                    server.sendResponse("Not a HTTP POST Method", exchange, 404);
                     return;
                 }
                 try {

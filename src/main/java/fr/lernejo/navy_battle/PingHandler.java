@@ -5,15 +5,15 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 
 public class PingHandler {
-    private final Server serverTools;
-    public PingHandler(Server serverTools) {
-        this.serverTools = serverTools;
+    private final Server server;
+    public PingHandler(Server server) {
+        this.server = server;
     }
 
-    public void createPingContext(HttpServer server) {
-        server.createContext("/ping", new HttpHandler() {
+    public void createPingContext(HttpServer httpServer) {
+        httpServer.createContext("/ping", new HttpHandler() {
             public void handle(HttpExchange exchange) throws IOException {
-                serverTools.sendResponse("OK", exchange, 200);
+                server.sendResponse("OK", exchange, 200);
             }
         });
     }
