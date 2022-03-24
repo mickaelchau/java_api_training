@@ -12,9 +12,9 @@ public class Launcher {
         serverTools.runHttpServer();
         if (args.length == 2) {
             String adversaryUrl = args[1];
+            String port = args[0];
             Client client = new Client();
-            String message = "{\"id\":\"" + args[0] + "\", \"url\":\"http://localhost:" + args[0] + "\", \"message\":\"hello\"}";
-            client.sendStartRequest(adversaryUrl, message);
+            client.sendStartRequest(adversaryUrl, port);
             client.sendGetFireRequest(adversaryUrl);
         }
     }
