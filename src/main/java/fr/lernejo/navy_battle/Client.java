@@ -8,9 +8,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpClient;
 
 public class Client {
-    HttpClient client;
+    final HttpClient client;
     String adversaryUrl;
-    Target target;
+    final Target target;
 
     public Client() {
         target = new Target();

@@ -1,12 +1,9 @@
 package fr.lernejo.navy_battle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.stream.Stream;
 
 public class Map {
-    ArrayList<Ship> ships;
+    final ArrayList<Ship> ships;
     int leftShips;
 
     public Map() {

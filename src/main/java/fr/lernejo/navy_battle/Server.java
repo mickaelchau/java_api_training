@@ -1,20 +1,18 @@
 package fr.lernejo.navy_battle;
+
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpServer;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
-import com.sun.net.httpserver.HttpServer;
-import com.sun.net.httpserver.HttpExchange;
-
 public class Server {
-    int portNumber;
-    Map map;
-    Client client;
+    final int portNumber;
+    final Map map;
+    final Client client;
 
     public Server(int portNumber) {
         map = new Map();

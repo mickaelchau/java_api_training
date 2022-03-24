@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Ship {
 
-    ArrayList<Cell> positions;
+    final ArrayList<Cell> positions;
 
     private void appendPositions(int startX, int startY) {
         Cell position = new Cell(startX, startY);

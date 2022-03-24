@@ -1,8 +1,8 @@
 package fr.lernejo.navy_battle;
 
 public class Cell {
-    int x;
-    int y;
+    final int x;
+    final int y;
     public Cell(int x , int y) {
         this.x = x;
         this.y = y;
