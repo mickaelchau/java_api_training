@@ -1,8 +1,5 @@
 package fr.lernejo.navy_battle;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import com.sun.net.httpserver.HttpExchange;
-import java.io.IOException;
 
 public class PingHandler {
     private final Server server;
@@ -11,10 +8,6 @@ public class PingHandler {
     }
 
     public void createPingContext(HttpServer httpServer) {
-        httpServer.createContext("/ping", new HttpHandler() {
-            public void handle(HttpExchange exchange) throws IOException {
-                server.sendResponse("OK", exchange, 200);
-            }
-        });
+        httpServer.createContext("/ping", exchange -> server.sendResponse("OK", exchange, 200));
     }
 }

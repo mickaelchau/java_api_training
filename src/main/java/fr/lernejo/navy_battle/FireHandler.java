@@ -1,7 +1,6 @@
 package fr.lernejo.navy_battle;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -13,7 +12,7 @@ public class FireHandler {
     public FireHandler(Server server) {
         this.server = server;
     }
-    public void handleFireGetRequest(HttpExchange exchange) throws  IOException {
+    public void handleFireGetRequest(HttpExchange exchange) throws IOException {
         URI requestURI = exchange.getRequestURI();
         String cell = requestURI.toString().split("=")[1];
         String attackResult = server.map.shootCell(cell).stateToString();
@@ -22,17 +21,15 @@ public class FireHandler {
     }
 
     public void createFireContext(HttpServer httpServer) {
-        httpServer.createContext("/api/game/fire", new HttpHandler() {
-            public void handle(HttpExchange exchange) throws IOException {
-                if (!"GET".equals(exchange.getRequestMethod())) {
-                    server.sendResponse("Not a HTTP POST Method", exchange, 404);
-                    return;
-                }
-                try {
-                    handleFireGetRequest(exchange);
-                } catch (IOException exception) {
-                    System.err.println("Error while handling POST request: " + exception);
-                }
+        httpServer.createContext("/api/game/fire", exchange -> {
+            if (!"GET".equals(exchange.getRequestMethod())) {
+                server.sendResponse("Not a HTTP POST Method", exchange, 404);
+                return;
+            }
+            try {
+                handleFireGetRequest(exchange);
+            } catch (IOException exception) {
+                System.err.println("Error while handling POST request: " + exception);
             }
         });
     }
