@@ -35,7 +35,6 @@ public class Client {
 
     public void sendGetFireRequest(String adversaryUrl) {
         String endpoint = adversaryUrl + "/api/game/fire" + "?cell=" + target.nextLetter + target.nextNumber;
-        System.out.println(endpoint);
         HttpRequest getRequest = HttpRequest.newBuilder().uri(URI.create(endpoint))
             .GET()
             .build();
