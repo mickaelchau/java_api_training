@@ -9,6 +9,7 @@ import java.net.http.HttpClient;
 
 public class Client {
     HttpClient client;
+    String adversaryUrl;
     Target target;
 
     public Client() {
@@ -33,8 +34,8 @@ public class Client {
         }
     }
 
-    public void sendGetFireRequest(String adversaryUrl) {
-        String endpoint = adversaryUrl + "/api/game/fire" + "?cell=" + target.nextLetter + target.nextNumber;
+    public void sendGetFireRequest() {
+        String endpoint =  adversaryUrl + "/api/game/fire" + "?cell=" + target.nextLetter + target.nextNumber;
         HttpRequest getRequest = HttpRequest.newBuilder().uri(URI.create(endpoint))
             .GET()
             .build();
