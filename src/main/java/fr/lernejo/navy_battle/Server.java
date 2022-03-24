@@ -1,12 +1,8 @@
 package fr.lernejo.navy_battle;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
-import org.json.JSONObject;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,12 +22,16 @@ public class Server {
         client = new Client();
     }
 
-    public void sendResponse(String body, HttpExchange exchange, int responseCode) throws IOException {
-        exchange.sendResponseHeaders(responseCode, body.length());
+    public void sendResponse(String body, HttpExchange exchange, int responseCode) {
+        try {
+            exchange.sendResponseHeaders(responseCode, body.length());
+        } catch (IOException exception) {
+            System.err.println("Send Response Headers goes wrong: " + exception);
+        }
         try (OutputStream os = exchange.getResponseBody()) { // (1)
             os.write(body.getBytes());
         } catch (IOException exception) {
-            System.err.println("Send Response goes wrong: " + exception);
+            System.err.println("Send Message goes wrong: " + exception);
         }
     }
 
