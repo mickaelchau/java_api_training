@@ -14,7 +14,6 @@ public class Launcher {
             String adversaryUrl = args[1];
             String port = args[0];
             server.client.sendStartRequest(adversaryUrl, port);
-            server.client.sendGetFireRequest(adversaryUrl);
         }
     }
 }

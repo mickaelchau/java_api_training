@@ -35,18 +35,6 @@ public class Server {
         }
     }
 
-    public JSONObject getRequestJson(InputStream os) throws IOException {
-        BufferedReader streamReader = new BufferedReader(new InputStreamReader(os, "UTF-8"));
-        StringBuilder responseStrBuilder = new StringBuilder();
-
-        String inputStr;
-        while ((inputStr = streamReader.readLine()) != null)
-            responseStrBuilder.append(inputStr);
-        JSONObject jsonObject = new JSONObject(responseStrBuilder.toString());
-        return jsonObject;
-    }
-
-
     public void runHttpServer() {
         HttpServer server = initHttpServer();
         if (server == null) {
