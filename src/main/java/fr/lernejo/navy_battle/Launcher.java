@@ -13,9 +13,8 @@ public class Launcher {
         if (args.length == 2) {
             String adversaryUrl = args[1];
             String port = args[0];
-            Client client = new Client();
-            client.sendStartRequest(adversaryUrl, port);
-            client.sendGetFireRequest(adversaryUrl);
+            server.client.sendStartRequest(adversaryUrl, port);
+            server.client.sendGetFireRequest(adversaryUrl);
         }
     }
 }
