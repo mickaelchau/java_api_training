@@ -43,10 +43,9 @@ public class Client {
             .GET()
             .build();
         try {
-            HttpResponse<String> response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+            client.sendAsync(getRequest, HttpResponse.BodyHandlers.ofString());
         }
-        catch(InterruptedException | IOException exception) {
+        catch(Exception exception) {
             System.err.println("Error while receiving response when Fire request: " + exception);
         }
     }
