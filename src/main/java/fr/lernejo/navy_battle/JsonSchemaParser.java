@@ -23,7 +23,6 @@ public class JsonSchemaParser {
                 responseStrBuilder.append(inputStr);
             return new JSONObject(responseStrBuilder.toString());
         } catch (IOException exception) {
-            System.err.println("here" + exception);
             return null;
         }
     }
@@ -36,6 +35,7 @@ public class JsonSchemaParser {
                 schema.validate(jsonObject);
                 return true;
             } catch (ValidationException exception) {
+                System.out.println(jsonObject);
                 System.err.println("Schema is invalid" + exception);
             }
         } catch (IOException exception) {

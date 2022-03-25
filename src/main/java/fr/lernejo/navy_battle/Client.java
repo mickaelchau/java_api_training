@@ -6,19 +6,21 @@ import java.net.URI;
 import java.net.http.HttpResponse;
 import java.net.http.HttpRequest;
 import java.net.http.HttpClient;
+import java.util.ArrayList;
 
 public class Client {
     final HttpClient client;
-    String adversaryUrl;
     final Target target;
+    final ArrayList<String> adversaryUrl;
 
     public Client() {
         target = new Target();
         client = HttpClient.newHttpClient();
+        adversaryUrl = new ArrayList<>(1);
     }
 
     public void sendStartRequest(String adversaryUrl, String port) {
-        this.adversaryUrl = adversaryUrl;
+        this.adversaryUrl.add(adversaryUrl);
         String endpoint = adversaryUrl + "/api/game/start";
         String message = "{\"id\":\"" + port + "\", \"url\":\"http://localhost:" + port + "\", \"message\":\"hello\"}";
         HttpRequest postRequest = HttpRequest.newBuilder().uri(URI.create(endpoint))
@@ -30,23 +32,21 @@ public class Client {
             System.out.println(response.body());
         }
         catch(InterruptedException | IOException exception) {
-            System.err.println("Error while receiving response: " + exception);
+            System.err.println("Error while receiving response when Start request: " + exception);
         }
     }
 
     public void sendGetFireRequest() {
-        String endpoint =  adversaryUrl + "/api/game/fire" + "?cell=" + target.nextLetter + target.nextNumber;
-        System.out.println(endpoint);
+        String endpoint =  adversaryUrl.get(0) + "/api/game/fire" + "?cell=" + target.getMove();
         HttpRequest getRequest = HttpRequest.newBuilder().uri(URI.create(endpoint))
             .GET()
             .build();
         try {
             HttpResponse<String> response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
-            target.nextChoice();
             System.out.println(response.body());
         }
         catch(InterruptedException | IOException exception) {
-            System.err.println("Error while receiving response: " + exception);
+            System.err.println("Error while receiving response when Fire request: " + exception);
         }
     }
 }

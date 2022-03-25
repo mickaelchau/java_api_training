@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Map {
     final ArrayList<Ship> ships;
-    int leftShips;
 
     public Map() {
         ships = new ArrayList<Ship>(5);
@@ -13,11 +12,10 @@ public class Map {
         ships.add(new Ship(3, 9, 0));
         ships.add(new Ship(3, 0, 7));
         ships.add(new Ship(2, 6, 6));
-        leftShips = 5;
     }
 
     public boolean hasShipsLeft() {
-        return leftShips != 0;
+        return ships.size() != 0;
     }
 
     private boolean isValidStringCell(String cell) {
@@ -40,14 +38,13 @@ public class Map {
     }
 
     private boolean hasShipDied() {
-        int beforeUpdateAliveShips = leftShips;
+        int beforeUpdateAliveShips = ships.size();
         ships.forEach(ship -> {
             if (!ship.isAlive()) {
                 ships.remove(ship);
-                leftShips--;
             }
         });
-        return (beforeUpdateAliveShips != leftShips);
+        return (beforeUpdateAliveShips != ships.size());
     }
 
     // 2 ships cannot be hit the same time

@@ -13,11 +13,13 @@ public class Server {
     final int portNumber;
     final Map map;
     final Client client;
+    final JsonSchemaParser jsonSchemaParser;
 
     public Server(int portNumber) {
         map = new Map();
         this.portNumber = portNumber;
         client = new Client();
+        jsonSchemaParser = new JsonSchemaParser();
     }
 
     public void sendResponse(String body, HttpExchange exchange, int responseCode) {

@@ -4,17 +4,14 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
 public class StartHandler {
 
     private final Server server;
-    private final JsonSchemaParser jsonSchemaParser;
 
     public StartHandler(Server server) {
         this.server = server;
-        jsonSchemaParser = new JsonSchemaParser();
     }
+
     public void createStartContext(HttpServer httpServer) {
         httpServer.createContext("/api/game/start", exchange -> {
             if (!"POST".equals(exchange.getRequestMethod())) {
@@ -26,10 +23,11 @@ public class StartHandler {
     }
 
     public void handleStartRequest(HttpExchange exchange) {
-        JSONObject jsonObjectRequest = jsonSchemaParser.getRequestJson(exchange);
-        if (jsonSchemaParser.isBodyValid(jsonObjectRequest)) {
+        JSONObject jsonObjectRequest = server.jsonSchemaParser.getRequestJson(exchange);
+        if (server.jsonSchemaParser.isBodyValid(jsonObjectRequest)) {
             server.sendResponse("{\"id\": \"" + server.portNumber + "\",\"url\": \"http://localhost:9876\",\"message\": \"May the best code win\"}", exchange, 202);
-            server.client.adversaryUrl = jsonObjectRequest.getString("url");
+            String adversaryUrl = (jsonObjectRequest.getString("url"));
+            server.client.adversaryUrl.add(adversaryUrl);
             server.client.sendGetFireRequest();
         } else {
             server.sendResponse("Request body malformed", exchange, 400);

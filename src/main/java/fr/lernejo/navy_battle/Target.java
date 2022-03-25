@@ -1,26 +1,27 @@
 package fr.lernejo.navy_battle;
 
+import java.util.ArrayList;
+
 public class Target {
-    char nextLetter;
-    char nextNumber;
+    final ArrayList<String> nextMove;
 
     public Target() {
-        this.nextLetter = 'A';
-        this.nextNumber = '0';
+        nextMove = initMoves();
     }
 
-    public char addOneToChar(char character) {
-        int nextIntCharacter = (int) character + 1;
-        return (char) nextIntCharacter;
+    private ArrayList<String> initMoves() {
+        ArrayList<String> allMoves = new ArrayList<>(100);
+        for (char c = 'A'; c <= 'J'; c++) {
+            for (char m = '0'; m <= '9'; m++) {
+                allMoves.add(String.valueOf(c) + m);
+            }
+        }
+        return allMoves;
     }
 
-    public void nextChoice() {
-        if (nextNumber == '9') {
-            nextNumber = '0';
-            nextLetter = addOneToChar(nextLetter);
-        }
-        else {
-            nextNumber = addOneToChar(nextNumber);
-        }
+    public String getMove() {
+        String moveToReturn = nextMove.get(0);
+        nextMove.remove(0);
+        return  moveToReturn;
     }
 }

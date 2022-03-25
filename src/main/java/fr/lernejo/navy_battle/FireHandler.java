@@ -17,10 +17,10 @@ public class FireHandler {
         String cell = requestURI.toString().split("=")[1];
         String attackResult = server.map.shootCell(cell).stateToString();
         boolean stillLeft = server.map.hasShipsLeft();
-
         server.sendResponse("{\"consequence\": \"" + attackResult + "\", \"shipLeft\": " + stillLeft + "}", exchange, 200);
-        if (stillLeft)
+        if (stillLeft) {
             server.client.sendGetFireRequest();
+        }
     }
 
     public void createFireContext(HttpServer httpServer) {
