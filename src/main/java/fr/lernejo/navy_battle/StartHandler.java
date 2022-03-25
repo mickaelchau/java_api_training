@@ -24,8 +24,9 @@ public class StartHandler {
 
     public void handleStartRequest(HttpExchange exchange) {
         JSONObject jsonObjectRequest = server.jsonSchemaParser.getRequestJson(exchange);
+        System.out.println(jsonObjectRequest);
         if (server.jsonSchemaParser.isBodyValid(jsonObjectRequest)) {
-            server.sendResponse("{\"id\": \"" + server.portNumber + "\",\"url\": \"http://localhost:9876\",\"message\": \"May the best code win\"}", exchange, 202);
+            server.sendResponse("{\"id\": \"" + server.portNumber + "\",\"url\": \"http://localhost:" + server.portNumber + "\",\"message\": \"May the best code win\"}", exchange, 202);
             String adversaryUrl = (jsonObjectRequest.getString("url"));
             server.client.adversaryUrl.add(adversaryUrl);
             server.client.sendGetFireRequest();
