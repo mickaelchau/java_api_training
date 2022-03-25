@@ -13,6 +13,7 @@ public class FireHandler {
     }
 
     public void handleFireGetRequest(HttpExchange exchange) {
+        exchange.getResponseHeaders().set("Content-Type", "application/json");
         URI requestURI = exchange.getRequestURI();
         String cell = requestURI.toString().split("=")[1];
         String attackResult = server.map.shootCell(cell).stateToString();
