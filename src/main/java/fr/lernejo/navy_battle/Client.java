@@ -1,11 +1,9 @@
 package fr.lernejo.navy_battle;
 
-import java.io.IOException;
 import java.net.URI;
-
-import java.net.http.HttpResponse;
-import java.net.http.HttpRequest;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
 public class Client {
@@ -28,10 +26,9 @@ public class Client {
             .setHeader("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(message)).build();
         try {
-            HttpResponse<String> response = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+            client.sendAsync(postRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(r  -> System.out.println(r.statusCode()));
         }
-        catch(InterruptedException | IOException exception) {
+        catch(Exception exception) {
             System.err.println("Error while receiving response when Start request: " + exception);
         }
     }
@@ -43,7 +40,7 @@ public class Client {
             .GET()
             .build();
         try {
-            client.sendAsync(getRequest, HttpResponse.BodyHandlers.ofString());
+            client.sendAsync(getRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(r  -> System.out.println(r.statusCode()));;
         }
         catch(Exception exception) {
             System.err.println("Error while receiving response when Fire request: " + exception);
