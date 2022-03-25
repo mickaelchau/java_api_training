@@ -39,6 +39,8 @@ public class Client {
     public void sendGetFireRequest() {
         String endpoint =  adversaryUrl.get(0) + "/api/game/fire" + "?cell=" + target.getMove();
         HttpRequest getRequest = HttpRequest.newBuilder().uri(URI.create(endpoint))
+            .setHeader("Accept", "application/json")
+            .setHeader("Content-Type", "application/json")
             .GET()
             .build();
         try {
