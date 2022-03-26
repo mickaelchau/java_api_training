@@ -11,9 +11,4 @@ public class ServerTest {
         Assertions.assertTrue(server.runHttpServer());
     }
 
-    @Test
-    void initServer() {
-        Server server = new Server(9999);
-        Assertions.assertNotEquals(server.initHttpServer(), null);
-    }
 }
