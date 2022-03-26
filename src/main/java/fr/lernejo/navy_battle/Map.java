@@ -18,7 +18,7 @@ public class Map {
         return ships.size() != 0;
     }
 
-    private boolean isValidStringCell(String cell) {
+    public boolean isValidStringCell(String cell) {
         if (cell.length() != 2)
             return false;
         if (cell.charAt(0) < 'A' && cell.charAt(0) > 'J')
@@ -28,7 +28,7 @@ public class Map {
         return true;
     }
 
-    private int[] getCellPosition(String cell) {
+    public int[] getCellPosition(String cell) {
         int cellX = cell.charAt(0) - 'A';
         int cellY = cell.charAt(1) - '0';
         int[] position = new int[2];
@@ -37,7 +37,7 @@ public class Map {
         return position;
     }
 
-    private boolean hasShipDied() {
+    public boolean hasShipDied() {
         int beforeUpdateAliveShips = ships.size();
         ships.forEach(ship -> {
             if (!ship.isAlive()) {
