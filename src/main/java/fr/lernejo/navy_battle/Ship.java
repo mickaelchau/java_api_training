@@ -6,9 +6,10 @@ public class Ship {
 
     final ArrayList<Cell> positions;
 
-    private void appendPositions(int startX, int startY) {
+    public Cell appendPositions(int startX, int startY) {
         Cell position = new Cell(startX, startY);
         positions.add(position);
+        return position;
     }
     public Ship(int nbCells, int startX, int startY) {
         positions = new ArrayList<Cell>(nbCells);

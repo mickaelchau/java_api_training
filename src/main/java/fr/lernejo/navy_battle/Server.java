@@ -35,16 +35,17 @@ public class Server {
         }
     }
 
-    public void runHttpServer() {
+    public boolean runHttpServer() {
         HttpServer server = initHttpServer();
         if (server == null) {
-            return;
+            return false;
         }
         ExecutorService executor = Executors.newFixedThreadPool(1);
         server.setExecutor(executor);
 
         createContexts(server);
         server.start();
+        return true;
     }
 
     public HttpServer initHttpServer() {
@@ -59,7 +60,7 @@ public class Server {
         return null;
     }
 
-    private void createContexts(HttpServer server) {
+    private boolean createContexts(HttpServer server) {
         PingHandler pingHandler = new PingHandler(this);
         StartHandler startHandler = new StartHandler(this);
         FireHandler fireHandler = new FireHandler(this);
@@ -67,6 +68,7 @@ public class Server {
         pingHandler.createPingContext(server);
         startHandler.createStartContext(server);
         fireHandler.createFireContext(server);
+        return true;
     }
 }
 
